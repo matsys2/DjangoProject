@@ -6,5 +6,11 @@ from django.http import HttpResponse
 
 def hello(request):
     s = request.GET.get('s', '')
-    return HttpResponse(f'Hello World! {s}')
+    return render(
+        request, template_name='hello.html',
+        context={
+            'adjectives': [s, 'beautiful', 'wonderful', 'cool']
+
+        }
+    )
 
