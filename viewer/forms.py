@@ -9,13 +9,18 @@ import re
 
 
 class MovieForm(ModelForm):
-    class Meta:
-        model = Movie
-        fields = '__all__'
+    class Meta: #subkalsa opisu=ujaca dane z ktorych bedzie tworzony form
+        model = Movie # model na podstawie tworzymy formularz
+        fields = '__all__' # wykorzystujemy wszystkie pola z modelu
 
         title = CharField(validators=[capitalized_validator])
         rating = IntegerField(min_value=1, max_value=10)
         released = PastMonthField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
     def clean_description(self):
         initial = self.cleaned_data['description']
