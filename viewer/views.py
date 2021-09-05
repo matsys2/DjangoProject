@@ -10,6 +10,10 @@ from viewer.forms import MovieForm
 from logging import getLogger
 LOGGER = getLogger()
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
 @login_required
 def generate_demo(request):
     our_get = request.GET.get('name', '')
@@ -22,13 +26,12 @@ def generate_demo(request):
 
     )
 
-
-class MoviesView(ListView):
+class MoviesView(LoginRequiredMixin, ListView):
     template_name = 'movies.html'
     model = Movie
 
 
-class MovieCreateView(CreateView):
+class MovieCreateView(LoginRequiredMixin, CreateView):
     template_name = 'form.html'
     form_class = MovieForm
     # adres pobrany z URLs na ktory zostaniemy przekierowani
@@ -45,7 +48,7 @@ class MovieCreateView(CreateView):
         return super().form_invalid(form)
 
 
-class MovieUpdateView(UpdateView):
+class MovieUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'form.html'
     form_class = MovieForm
     # adres pobrany z URLs na ktory zostaniemy przekierowani
@@ -61,7 +64,7 @@ class MovieUpdateView(UpdateView):
         return super().form_invalid(form)
 
 
-class MovieDeleteView(DeleteView):
+class MovieDeleteView(LoginRequiredMixin, DeleteView):
     # nazwa szablonu wraz z rozszerzeniem ktora pobieramy z folderu templates
     template_name = 'delete_movie.html'
     success_url = reverse_lazy('index')
