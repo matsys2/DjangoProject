@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import path
 
 from viewer.views import MoviesView, MovieCreateView, \
-    MovieUpdateView, MovieDeleteView, SubmittableLoginView
+    MovieUpdateView, MovieDeleteView
 from viewer.models import Genre, Movie
 from django.contrib.auth.views import LoginView
 
 from viewer.views import generate_demo
+
+from accounts.views import SubmittableLoginView
 
 admin.site.register(Genre)
 admin.site.register(Movie)
