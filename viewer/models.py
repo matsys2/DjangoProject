@@ -9,6 +9,8 @@ from django.db.models import (Model,
 class Genre(Model):
     name = CharField(max_length=128)
 
+    def __str__(self):
+        return self.name
 
 class Movie(Model):
     title = CharField(max_length=128)
@@ -18,3 +20,5 @@ class Movie(Model):
     description = TextField()
     created = DateTimeField(auto_now_add=True) # zawsze biezacy czas
 
+    def __str__(self):
+        return self.title
