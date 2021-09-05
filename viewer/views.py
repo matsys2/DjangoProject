@@ -8,10 +8,16 @@ from viewer.models import Movie
 from viewer.forms import MovieForm
 
 from logging import getLogger
+
 LOGGER = getLogger()
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
+
+
+class SubmittableLoginView(LoginView):
+    template_name = 'form.html'
 
 
 @login_required
@@ -26,13 +32,14 @@ def generate_demo(request):
 
     )
 
+
 class MoviesView(LoginRequiredMixin, ListView):
     template_name = 'movies.html'
     model = Movie
 
 
 class MovieCreateView(LoginRequiredMixin, CreateView):
-    template_name = 'form.html'
+    template_name = 'formAddEditMovie.html'
     form_class = MovieForm
     # adres pobrany z URLs na ktory zostaniemy przekierowani
     # gdy walidacja sie powiedzie(movie_create pochodzi  z name!!)
@@ -49,7 +56,7 @@ class MovieCreateView(LoginRequiredMixin, CreateView):
 
 
 class MovieUpdateView(LoginRequiredMixin, UpdateView):
-    template_name = 'form.html'
+    template_name = 'formAddEditMovie.html'
     form_class = MovieForm
     # adres pobrany z URLs na ktory zostaniemy przekierowani
     # gdy walidacja sie powiedzie(movie_create pochodzi  z name!!)
